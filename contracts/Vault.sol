@@ -6,8 +6,8 @@ contract Vault {
 
     struct Beneficiary {
         uint256 amount;
-        uint deadline;
         bool hasReceived;
+        uint deadline;
     }
 
     mapping(address => uint256) donors;
@@ -21,7 +21,7 @@ contract Vault {
     function donate(address _receiver, uint _duration) external payable {
         require(msg.sender != address(0), "Zero address not allowed");
 
-        require(msg.value > 0, "Zero amount not allowed");
+        require(msg.value > 0, "NO ZERO AMOUNT");
 
         donors[msg.sender] += msg.value;
 
@@ -41,7 +41,7 @@ contract Vault {
 
         require(
             !donorToBeneficiaries[_donor][msg.sender][_index].hasReceived,
-            "Amount collected already"
+            "Amount has been collected"
         );
 
         require(
@@ -52,7 +52,7 @@ contract Vault {
         require(
             block.timestamp >
                 donorToBeneficiaries[_donor][msg.sender][_index].deadline,
-            "Not yet time to collect"
+            "Not yet time to get benefit"
         );
 
         uint amount = donorToBeneficiaries[_donor][msg.sender][_index].amount;
